@@ -73,3 +73,15 @@ natural join
 unitssold u
 where u.purchase_date between p.start_date and p.end_date) d
 group by d.product_id 
+
+
+Practiced solution:
+select pid as id, round(sum(tot)/sum(un) + 0.00,2) from
+(select s.product_id as pid, u.units as un, (s.price * u.units) as tot
+from sales s inner join units u
+on (s.product_id = u.product_id and u.purchase_date 
+	between s.start_date and s.end_date)) as temp
+group by pid
+    
+
+
