@@ -31,3 +31,16 @@ lag(free,1) over() as prev
 from cinema) a
 where a.free=True and (next = True or prev=True)
 order by seat_id
+
+
+Practice:
+select s from 
+(select seat_id s,free,
+LEAD(free,1,-1) over(order by seat_id) as lead_seat,
+LAG(free, 1, -1) over(order by seat_id) as lag_seat
+from seats) as t
+where (lead_seat = 1 or lag_seat = 1) and free = 1
+order by s asc
+
+
+
