@@ -34,6 +34,15 @@
 -- So the result is customer_number '3'.
 
 
+Practice:
+select customer_number from
+  (select customer_number, count(*) as tot from orders1
+   group by customer_number
+   order by tot desc	
+) t
+limit 1
+
+
 -- Solution
 -- Ranking them according to the number of orders to have same rank for 
 -- customers with same number of orders
