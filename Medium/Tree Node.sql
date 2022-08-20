@@ -58,3 +58,18 @@ else 'Inner'
 end as Type
 from tree
 order by id
+
+
+-----------------------------------------------------------------
+My solution:
+select
+	id,
+	type = (
+				case
+					when p_id is null then 'Root'
+					when id not in (select distinct p_id from tree where p_id is not null) then 'Leaf'
+					else 'inner'
+				end
+		   ) 
+from tree
+order by id;
