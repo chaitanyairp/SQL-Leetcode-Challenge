@@ -126,3 +126,44 @@ from t1
 group by host_id, host_name) e
 on t2.team_id = e.host_id
 order by num_points desc, team_id
+
+-----------------------------------------------------------------------------------
+
+My solution:
+
+with points as (
+select
+	host_team,
+	host_points = (case when host_goals > guest_goals then 3
+						               when host_goals = guest_goals then 1
+						               else 0 
+				            end),
+	guest_team,
+	guest_points = (case when guest_goals > host_goals then 3
+						                when guest_goals = host_goals then 1
+						                else 0
+					           end)
+from matches
+), t2 as (
+select host_team as team , sum(host_points) as points from points group by host_team
+union
+select guest_team as team, sum(guest_points) as points from points group by guest_team
+)
+select t.team_id, min(t.team_name), coalesce(sum(points),0) as num_points
+from teams t left join t2 on t2.team = t.team_id
+group by t.team_id
+order by num_points desc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
