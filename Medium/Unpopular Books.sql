@@ -73,3 +73,14 @@ where dispatch_date > '2018-06-23') a
 on a.book_id = b.book_id
 group by b.book_id, name
 having coalesce(sum(quantity),0)<10
+
+
+
+My Solution:
+select b.book_id, min(b.name), sum(case when year(dispatch_date) = 2018 then quantity else 0 end) as qty
+from books b left join orders o on o.book_id = b.book_id
+where datediff(day, available_from, '2019-06-23') >= 30
+group by b.book_id
+having(sum(case when year(dispatch_date) = 2018 then quantity else 0 end)) < 10
+
+
