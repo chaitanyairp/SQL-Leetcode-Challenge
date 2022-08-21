@@ -45,3 +45,27 @@ select p1.id as p1, p2.id as p2, abs(p1.x_value-p2.x_value)*abs(p1.y_value-p2.y_
 from points p1 cross join points p2
 where p1.x_value!=p2.x_value and p1.y_value!=p2.y_value and p1.id<p2.id
 order by area desc, p1, p2
+
+
+
+
+My sol:
+with cte as (
+select p1.id as 'p1', p1.x_value as 'x1', p1.y_value as 'y1', p2.id as 'p2', p2.x_value as 'x2', p2.y_value as 'y2'
+from points p1 cross join points p2
+where p1.x_value != p2.x_value and p1.y_value != p2.y_value and p1.id < p2.id
+)
+select p1, p2, abs(x1-x2) * abs(y1-y2) as area 
+from cte
+order by area desc, p1, p2;
+
+
+
+
+
+
+
+
+
+
+
