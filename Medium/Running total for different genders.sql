@@ -67,17 +67,3 @@ sum(score_points) over(partition by gender order by day) as total
 from scores
 group by 1,2
 order by 1,2
-
-
-My Sol:
-select 'F' as 'gender', day, sum(score_points) as total
-from scores_mf
-where gender = 'F'
-group by day
-union
-select 'M' as 'gender', day, sum(score_points) as total
-from scores_mf
-where gender = 'M'
-group by day
---This could be easily solved by window functions. Check more on this.
-
