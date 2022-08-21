@@ -67,3 +67,38 @@ sum(score_points) over(partition by gender order by day) as total
 from scores
 group by 1,2
 order by 1,2
+
+
+My sol:
+
+with t1 as (
+select gender, day, sum(score_points) as tot
+from scores_mf
+group by gender, day
+)
+select gender, day, sum(tot) over(order by day) as tot
+from t1
+where gender = 'M'
+union
+select gender, day, sum(tot) over(order by day) as tot
+from t1
+where gender = 'F'
+
+-- we can use partition insted of union.
+
+with t2 as (
+select gender, day, sum(score_points) as tot
+from scores_mf
+group by gender, day
+)
+select
+	gender,
+	day,
+	sum(tot) over(partition by gender order by day) as total
+from t2
+
+
+
+
+
+
