@@ -33,3 +33,13 @@
 select Score,
 dense_rank() over(order by score desc) as "Rank"
 from scores
+
+
+
+My sol:
+select score, dense_rank() over(order by score desc) as 'Rank'
+from scores;
+
+
+
+
