@@ -80,3 +80,15 @@ group by a.action_date)
 
 select round(avg(t1.result)*100,2) as  average_daily_percent
 from t1
+
+
+My sol:
+with temp as (
+select action_date, round(count(r.post_id) * 1.0 / count(*),2) * 100 as daily_percent
+from actions a left join removals r on a.post_id = r.post_id 
+where extra = 'spam'
+group by action_date
+)
+select round(avg(daily_percent),2)
+from temp
+
