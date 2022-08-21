@@ -70,3 +70,23 @@ from
 	order by visited_on
 ) a
 order by visited_on offset 6 rows
+
+
+
+My sol:
+with t1 as (
+select visited_on, sum(amount) as daily_amount
+from customer
+group by visited_on
+)
+select
+	visited_on,
+	amount = (sum(daily_amount) over(order by visited_on rows between 6 preceding and current row)),
+	average_amount = (avg(daily_amount*1.0) over(order by visited_on rows between 6 preceding and current row))
+from t1
+order by visited_on
+offset 6 rows
+
+
+
+
