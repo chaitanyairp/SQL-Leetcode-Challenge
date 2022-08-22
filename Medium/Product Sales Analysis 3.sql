@@ -62,3 +62,15 @@ from
   from sales
 ) a
 where a.rk = 1
+
+
+
+select product_id, first_year,quantity, price from (
+select
+	product_id,
+	year as first_year,
+	quantity,
+	price,
+	rn = (rank() over(partition by product_id order by year)) 
+from sales s
+) t where rn = 1
