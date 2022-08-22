@@ -29,3 +29,22 @@ BEGIN
       where a.rk = N
   );
 END
+
+
+My sol: -> u can wrap it up inside a function.
+with emp as (
+select
+	id,
+	salary,
+	dense_rank() over(order by salary desc) as rn
+from employee
+)
+select id, salary from emp where rn = 2;
+
+
+
+
+
+
+
+
