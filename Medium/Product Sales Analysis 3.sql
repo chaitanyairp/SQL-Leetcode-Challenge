@@ -63,7 +63,7 @@ from
 ) a
 where a.rk = 1
 
-
+My sol:
 
 select product_id, first_year,quantity, price from (
 select
