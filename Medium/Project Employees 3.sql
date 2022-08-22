@@ -69,3 +69,20 @@ on p.employee_id = e.employee_id)
 select t1.project_id, t1.employee_id
 from t1
 where t1.rk = 1
+
+
+My sol:
+
+select project_id, employee_id from (
+select 
+	p.project_id, 
+	e.employee_id, 
+	e.exp_years,
+	rn = (rank() over(partition by p.project_id order by e.exp_years desc))
+from project_85 p inner join employee_85 e on p.employee_id = e.employee_id
+) t
+where rn = 1
+
+
+
+
