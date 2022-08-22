@@ -84,3 +84,21 @@ select user1_id
 from friendship
 where user2_id = 1) 
 and page_id != all(select page_id from likes where user_id = 1)
+
+
+My sol:
+
+with friends_list as (
+select user2_id as friends from friendship where user1_id = 1
+union
+select user1_id as friends from friendship where user2_id = 1
+), pages_liked as (
+select page_id
+from likes
+where user_id in (select distinct friends as friends from friends_list)
+)
+select distinct page_id from pages_liked
+where page_id not in (select page_id from likes where user_id = 1);
+
+
+
