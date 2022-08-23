@@ -53,3 +53,19 @@ group by country, month(trans_date))
 select t1.month, t1.country, coalesce(t1.trans_count,0) as trans_count, coalesce(t2.approved_count,0) as approved_count, coalesce(t1.trans_total_amount,0) as trans_total_amount, coalesce(t2.approved_total_amount,0) as approved_total_amount
 from t1 left join t2
 on t1.country = t2.country and t1.month = t2.month
+
+
+
+
+
+My sol:
+
+select 
+	concat(year(trans_date), '-', format(month(trans_date), '00')) as month,
+	country,
+	count(id) as trans_count,
+	sum(case when state = 'approved' then 1 else 0 end) as approved_count,
+	sum(amount) as trans_total_amount,
+	sum(case when state = 'approved' then amount else 0 end) as approved_total_amount
+from transactions
+group by country, concat(year(trans_date), '-', format(month(trans_date), '00'))
