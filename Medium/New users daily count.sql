@@ -61,3 +61,21 @@ select login_date, count(distinct user_id) as user_count
 from t1
 where login_date between '2019-04-01' and '2019-06-30'
 group by login_date
+
+
+
+
+My sol:
+
+with cte as (
+select user_id, min(activity_date) as login_date
+from traffic
+where activity = 'login'
+group by user_id
+having datediff(day, min(activity_date), '2019-06-30') <= 90
+)
+select login_date, count(distinct user_id) as user_count from cte
+group by login_date
+
+
+
