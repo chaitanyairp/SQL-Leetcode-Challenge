@@ -112,3 +112,32 @@ where month(created_at) = 2
 group by title
 order by rnd desc, title) b
 limit 1)) as d
+
+
+
+
+
+My sol:
+with t1 as(
+select
+	u.name,
+	count(rating) as cnt,
+	rn = (rank() over(order by count(rating) desc)) 
+from movie_rating r inner join users u on r.user_id = u.user_id
+group by u.name
+), t2 as (  
+select title, 
+	round(avg(rating*1.0),2) as average,
+	rank() over(order by round(avg(rating*1.0),2) desc) as rn
+from movie_rating r inner join movies m on r.movie_id = m.movie_id 
+where month(created_at) = 2
+group by title
+)
+select top(1) name as results from t1
+where rn = 1
+union all
+select top(1) title from t2 where rn = 1
+
+
+
+
