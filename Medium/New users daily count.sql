@@ -77,5 +77,16 @@ having datediff(day, min(activity_date), '2019-06-30') <= 90
 select login_date, count(distinct user_id) as user_count from cte
 group by login_date
 
+Restructured:
 
+with first_login as (
+select user_id, min(activity_date) as login_date
+from traffic
+where activity = 'login'
+group by user_id
+)
+select login_date, count(distinct user_id) as user_count
+from first_login
+where datediff(day, login_date, '2019-06-30') <= 90
+group by login_date
 
