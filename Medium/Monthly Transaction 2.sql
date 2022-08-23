@@ -110,7 +110,33 @@ My sol:
 
 
 
+My sol:
 
+with t1 as (
+select
+	concat(year(trans_date), '-', format(month(trans_date), '00')) as month,
+	country,
+	sum(case when state = 'approved' then 1 else 0 end) as approved_transactions,
+	sum(case when state = 'approved' then amount else 0 end) as total_amount
+from transactions_2
+group by country, concat(year(trans_date), '-', format(month(trans_date), '00'))
+), t2 as (
+select
+	concat(year(charge_date), '-', format(month(charge_date), '00')) as month,
+	country,
+	count(trans_id) as chargeback_count,
+	sum(amount) chargeback_amount
+from chargebacks c inner join transactions_2 t on c.trans_id = t.id
+group by country, concat(year(charge_date), '-', format(month(charge_date), '00'))
+)
+select 
+	coalesce(t1.month, t2.month) as month,
+	coalesce(t1.country, t2.country) as country,
+	coalesce(approved_transactions,0) as approved_transactions,
+	coalesce(total_amount, 0) as total_amount,
+	coalesce(chargeback_count, 0) as chargeback_count,
+	coalesce(chargeback_amount, 0) as chargeback_amount
+from t2 left join t1 on t2.month = t1.month
 
 
 
