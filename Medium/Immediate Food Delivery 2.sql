@@ -55,3 +55,19 @@ from
  rank() over(partition by customer_id order by order_date) as rk
 from delivery) a
 where a.rk=1
+
+
+My sol:
+
+with cte as (
+select
+	customer_id,
+	order_date,
+	customer_pref_delivery_date,
+	rank() over(partition by customer_id order by order_date) as rn
+from delivery
+)
+select round(sum(case when order_date = customer_pref_delivery_date then 1 else 0 end)*100/count(customer_id),2) as immediate_percentage
+from cte
+where rn = 1;
+
