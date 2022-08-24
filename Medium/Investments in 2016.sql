@@ -45,3 +45,35 @@ from
 (select *, count(*) over (partition by TIV_2015) as c1, count(*) over (partition by LAT, LON) as c2
 from insurance ) t
 where c1 > 1 and c2 = 1; 
+
+
+
+My sol:
+
+with t1 as (
+	select tiv_2015
+	from insurance
+	group by tiv_2015
+	having count(tiv_2015) > 1
+), t2 as (
+	select lat
+	from insurance
+	group by lat
+	having count(lat) = 1
+), t3 as (
+	select LON
+	from insurance
+	group by lon
+	having count(lon) = 1
+)
+select round(sum(tiv_2016),2) as TIV_2016
+from insurance where tiv_2015 in (select tiv_2015 from t1)
+and lat in (select lat from t2)
+and lon in (select lon from t3);
+
+
+
+
+
+
+
