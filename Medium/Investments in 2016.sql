@@ -49,6 +49,8 @@ where c1 > 1 and c2 = 1;
 
 
 My sol:
+Too many subqueries. needs improvement
+
 
 with t1 as (
 	select tiv_2015
