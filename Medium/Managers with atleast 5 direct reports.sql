@@ -34,3 +34,13 @@ from t1
 join employee e
 on t1.managerid = e.id
 where t1.total>=5
+
+My sol:
+
+select b.name
+from emp a inner join emp b on a.managerId = b.id
+group by b.name
+having count(a.id) >= 5
+
+
+
