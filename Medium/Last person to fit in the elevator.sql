@@ -54,3 +54,14 @@ select t1.person_name
 from t1
 where turn = (select max(turn) from t1 where t1.cum_weight<=1000)
 
+My sol:
+
+with t1 as (
+select
+	person_name,
+	running_weight = sum(weight) over(order by turn) 
+from queue
+) select top(1) person_name
+from t1
+where running_weight <= 1000
+order by running_weight desc
