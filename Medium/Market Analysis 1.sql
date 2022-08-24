@@ -93,3 +93,21 @@ on u.user_id = o.buyer_id
 where extract('year'from order_date) = 2019
 group by buyer_id) a
 on users.user_id = a.buyer_id
+
+
+
+My sol:
+with t1 as (
+select buyer_id, count(order_id) as cnt
+from orders_69
+where year(order_date) = 2019
+group by buyer_id
+)
+select u.user_id as buyer_id, u.join_datae as join_date, coalesce(t.cnt, 0) as orders_in_2019
+from users_69 u left join t1 t on u.user_id = t.buyer_id 
+
+
+
+
+
+
