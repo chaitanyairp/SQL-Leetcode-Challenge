@@ -50,3 +50,26 @@ rank() over(partition by username order by startdate desc) as rk,
 count(username) over(partition by username) as cnt
 from useractivity) a
 where a.rk = 2 or cnt = 1
+
+My sol:
+
+with t1 as (
+select
+	username,
+	activity,
+	startDate,
+	endDate,
+	row_number() over(partition by username order by endDate desc) as rn,
+	count(*) over(partition by username) as cnt
+from userActivity
+)
+select
+	username,
+	activity,
+	startDate,
+	endDate
+from t1
+where (cnt = 1 and rn = 1) or (cnt > 1 and rn = 2);
+
+
+
