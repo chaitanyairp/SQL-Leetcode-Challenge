@@ -52,3 +52,32 @@ With t as
 
 select round(sum(t.s)/count(distinct t.player_id),2) as fraction 
 from t
+
+
+My sol:
+Using lead:
+with cte as (
+select
+	player_id,
+	event_date as first_day,
+	second_day = lead(event_date,1) over(partition by player_id order by event_date) 
+from Activity_91
+)
+select
+	fraction = sum(case when datediff(day,first_day,second_day) = 1 then 1.0 else 0 end)/count(distinct player_id)
+from cte
+
+
+Using inner join:
+with t1 as(
+select count(*)	as cnt
+from Activity_91 a inner join Activity_91 b on a.player_id = b.player_id and datediff(day, a.event_date,b.event_date) = 1
+)
+select cnt/(select count(distinct player_id)*1.0 from Activity_91) as fraction
+from t1
+
+
+
+
+
+
