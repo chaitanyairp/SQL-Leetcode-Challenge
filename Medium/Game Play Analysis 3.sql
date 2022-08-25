@@ -48,3 +48,12 @@ select player_id, event_date,
 sum(games_played) over(partition by player_id order by event_date) as games_played_so_far
 from activity
 order by 1,2
+
+
+select
+	player_id,
+	event_date,
+	games_played_so_far = (sum(games_played) over(partition by player_id order by event_date))
+from Activity_62
+order by player_id
+
