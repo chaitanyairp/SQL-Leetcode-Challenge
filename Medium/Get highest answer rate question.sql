@@ -50,3 +50,27 @@ from
 rank() over(order by rate desc) as rk
 from t1) a
 where a.rk = 1
+
+
+My sol:
+
+with t1 as (
+select 
+	question_id, 
+	sum(case when action = 'show' then 1 else 0 end) as show_cnt,
+	sum(case when action = 'answer' then 1 else 0 end) as ans_cnt
+from survery_log
+group by question_id
+), t2 as (
+	select
+		question_id,
+		round(ans_cnt*1.0/show_cnt,2) as rate,
+		rank() over(order by round(ans_cnt*1.0/show_cnt,2) desc) as rn
+	from t1
+)
+select question_id from t2 where rn = 1;
+
+
+
+
+
