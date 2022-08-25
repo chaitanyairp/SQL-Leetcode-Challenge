@@ -43,3 +43,19 @@ select student_id, course_id, grade,
 rank() over(partition by student_id order by grade desc, course_id) as rk
 from enrollments) a
 where a.rk = 1
+
+
+
+My sol:
+with cte as (
+select
+	student_id,
+	course_id,
+	grade,
+	rank() over(partition by student_id order by grade desc, course_id) as rn
+from Enrollements
+)
+select student_id, course_id, grade from cte
+where rn = 1
+
+
