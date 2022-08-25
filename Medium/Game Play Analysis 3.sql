@@ -50,6 +50,7 @@ from activity
 order by 1,2
 
 
+My sol:
 select
 	player_id,
 	event_date,
