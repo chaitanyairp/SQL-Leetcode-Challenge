@@ -55,3 +55,18 @@ select customer_id
 from customer
 group by customer_id
 having count(distinct product_key) = (select COUNT(distinct product_key) from product)
+
+
+My sol:
+Its a foreign key. No need of join. Check this later.
+with t1 as (
+select customer_id, c.product_key, p.product_key as product
+from customer_93 c left join product_93 p on c.product_key = p.product_key
+)
+select customer_id
+from t1
+group by customer_id
+having count(product) = (select count(product_key) from product_93)
+
+
+
