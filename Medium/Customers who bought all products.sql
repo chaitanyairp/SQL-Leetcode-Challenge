@@ -58,7 +58,7 @@ having count(distinct product_key) = (select COUNT(distinct product_key) from pr
 
 
 My sol:
-Its a foreign key. No need of join. Check this later.
+Its a foreign key. No need of join. Read the damm question.
 with t1 as (
 select customer_id, c.product_key, p.product_key as product
 from customer_93 c left join product_93 p on c.product_key = p.product_key
