@@ -66,7 +66,7 @@ from customer_93 c left join product_93 p on c.product_key = p.product_key
 select customer_id
 from t1
 group by customer_id
-having count(product) = (select count(product_key) from product_93)
+having count(distinct product) = (select count(product_key) from product_93)
 
 
 
