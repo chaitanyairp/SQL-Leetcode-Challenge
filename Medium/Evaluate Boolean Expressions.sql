@@ -81,3 +81,25 @@ when t1.operator = '=' then (select t1.left_val = t1.right_val)
 else FALSE
 END AS VALUE
 from t1
+
+
+My sol:
+
+with t1 as (
+select
+	left_operand,
+	left_value = (select value from Variables v where e.left_operand = v.name),
+	right_operand,
+	right_value = (select value from Variables v where e.right_operand = v.name),
+	operator
+from Expressions e)
+select
+	left_operand,
+	operator,
+	right_operand,
+	value = (case 
+				when operator = '<' then IIF (left_value < right_value, 'TRUE', 'FALSE') 
+				when operator = '=' then IIF (left_value = right_value, 'TRUE','FALSE')
+				when operator = '>' then IIF (left_value > right_value, 'TRUE','FALSE')
+			end)
+from t1
