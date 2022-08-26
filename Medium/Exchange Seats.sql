@@ -35,3 +35,25 @@
 -- Solution
 select row_number() over (order by (if(id%2=1,id+1,id-1))) as id, student
 from seat
+
+
+My sol:
+
+with cte as (
+select
+	id,
+	student,
+	lag(id,1) over(order by id) as id1,
+	lead(id, 1) over(order by id) as id2
+from seats
+)
+select
+	id = (case when id % 2 = 1 and id2 is not null then id + 1
+		 when id % 2 = 1 and id2 is null then id
+		 when id % 2 = 0 and id1 is not null then id - 1
+		 when id % 2 = 0 and id1 is null then id
+	end),
+	student
+from cte
+order by id
+
