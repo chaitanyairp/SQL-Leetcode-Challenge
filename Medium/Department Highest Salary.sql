@@ -41,3 +41,21 @@ from employee e
 join department d
 on e.departmentid = d.id) a
 where a.rk=1
+
+
+
+
+My sol:
+select Department, Employee, Salary from (
+select 
+	d.name as Department, 
+	e.name as Employee, 
+	e.salary as Salary,
+	rank() over(partition by e.departmentid order by salary desc) as rn
+from employees e inner join department d on e.departmentid = d.id) t
+where rn = 1
+
+
+
+
+
