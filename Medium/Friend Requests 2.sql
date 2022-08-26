@@ -43,3 +43,19 @@ group by accepter_id)) a
 group by requester_id
 order by total desc) b
 limit 1
+
+
+My sol:
+with cte as (
+select requester_id, accepter_id from request_accepted
+union all
+select accepter_id, requester_id from request_accepted
+), t2 as ( 
+select
+	requester_id as id,
+	count(*) as num,
+	rank() over(order by count(*) desc) as rn
+from cte 
+group by requester_id)
+select id, num from t2 where rn = 1
+
