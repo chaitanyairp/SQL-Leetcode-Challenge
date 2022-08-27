@@ -66,3 +66,23 @@ where operation = 'Buy'
 group by stock_name) c
 on b.stock_name = c.name)
 order by capital_gain_loss desc
+
+
+My sol:
+
+with costs as (
+select 
+	stock_name,
+	buy_cost = sum(case when operation = 'Buy' then price else 0 end),
+	sell_cost = sum(case when operation = 'Sell' then price else 0 end)
+from stocks 
+group by stock_name)
+select stock_name, sell_cost - buy_cost as capital_gain_loss
+from costs
+
+
+
+
+
+
+
