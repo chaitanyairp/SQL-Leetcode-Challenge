@@ -72,3 +72,31 @@ when t1.maximum between 1000 and 10000 then round(t1.sa*.76,0)
 else round(t1.sa*.51,0)
 end as salary
 from t1
+
+
+My sol:
+
+with max_salary as (
+select
+	company_id,
+	employee_id,
+	employee_name,
+	salary,
+	tax = (case
+			when max(salary) over(partition by company_id) < 1000 then 0
+			when max(salary) over(partition by company_id) between 1000 and 10000 then (24 * salary)/100
+			when max(salary) over(partition by company_id) > 10000 then (49 * salary) / 100
+		  end)
+from salaries
+)
+select
+company_id,
+employee_id,
+employee_name,
+salary - tax as salary
+from max_salary
+
+
+
+
+
