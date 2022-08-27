@@ -56,3 +56,10 @@ left join student s
 on d.dept_id = s.dept_id
 group by d.dept_id
 order by count(s.dept_id) desc, dept_name
+
+
+My sol:
+select dept_name, count(student_id) as student_number
+from dept d left join student s on d.dept_id = s.dept_id
+group by dept_name
+order by 2 desc, 1 asc
