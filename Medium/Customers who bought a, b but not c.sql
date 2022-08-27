@@ -81,3 +81,27 @@ on t1.customer_id = c.customer_id
 where t1.customer_id != all(select customer_id
 from orders
 where product_name = 'C')
+
+
+
+My sol:
+
+SELECT
+	min(o.customer_id) as customer_id,
+	c.customer_name as customer_name
+FROM ORDERS_72 O INNER JOIN CUSTOMERS_72 C ON C.CUSTOMER_ID = O.CUSTOMER_ID
+group by c.customer_name
+having sum(case when o.product_name = 'A' then 1 else 0 end) >= 1
+   and sum(case when o.product_name = 'B' then 1 else 0 end) >= 1
+   and sum(case when o.product_name = 'C' then 1 else 0 end) = 0
+
+
+select
+	distinct o.customer_id,
+	c.customer_name
+from orders_72 o inner join customers_72 c on c.customer_id = o.customer_id 
+where o.customer_id in (select distinct customer_id from orders_72 where product_name = 'A')
+and o.customer_id in (select distinct customer_id from orders_72 where product_name = 'B')
+and o.customer_id not in (select distinct customer_id from orders_72 where product_name = 'C')
+
+
