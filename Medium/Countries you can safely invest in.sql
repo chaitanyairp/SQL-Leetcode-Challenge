@@ -114,3 +114,30 @@ using (id)) b
 join country c
 on c.country_code = b.code)) d
 where avg_call > global_avg
+
+
+My sol:
+
+with all_calls as (
+select caller_id, callee_id , duration from calls
+union all
+select callee_id, caller_id, duration from calls
+), duration as (
+select 
+	c.name,
+	a.duration
+from all_calls a inner join person p on a.caller_id = p.id
+inner join country c on substring(p.phone_number,1,3) = c.country_code
+), res as (
+select
+	name,
+	avg(duration) over(partition by name) as country_average,
+	avg(duration) over() as global_average
+from duration)
+select distinct name from res where country_average > global_average;
+
+
+
+
+
+
