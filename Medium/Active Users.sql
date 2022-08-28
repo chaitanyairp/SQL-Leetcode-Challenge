@@ -75,3 +75,13 @@ inner join accounts a
 on t1.id = a.id
 where datediff(t1.date_5,login_date) = 4
 order by id
+
+
+My sol:
+-- Join 5 times : poor sol
+select distinct a.id, ac.name
+from Logins a inner join Logins b on a.id = b.id and datediff(day,a.login_date,b.login_date) = 1
+inner join Logins c on b.id = c.id and datediff(day,b.login_date,c.login_date) = 1
+inner join Logins d on c.id = d.id and datediff(day,c.login_date,d.login_date) = 1
+inner join Logins e on d.id = e.id and datediff(day,d.login_date,e.login_date) = 1
+inner join Accounts ac on e.id = ac.id
