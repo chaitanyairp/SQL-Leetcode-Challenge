@@ -60,3 +60,17 @@ join
 from sales
 where fruit = 'oranges') b
 on a.sale_date = b.sale) 
+
+
+My sol:
+with t1 as (
+select
+	sale_date,
+	sum(case when fruit = 'apples' then sold_num else 0 end) as apples_sold,
+	sum(case when fruit = 'oranges' then sold_num else 0 end) as oranges_sold
+from sales_66
+group by sale_date
+)
+select sale_date, apples_sold - oranges_sold as diff from t1;
+
+
