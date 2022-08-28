@@ -46,3 +46,18 @@ from views
 group by viewer_id, view_date
 having count(distinct article_id)>1
 order by 1
+
+My sol:
+1.
+select viewer_id from (
+select view_date, viewer_id, count(distinct article_id) as cnt
+from views
+group by view_date, viewer_id
+) a
+where cnt > 1
+
+2.
+select viewer_id
+from views
+group by view_date, viewer_id
+having count(distinct article_id) > 1
