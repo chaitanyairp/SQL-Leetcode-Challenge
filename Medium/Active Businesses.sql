@@ -51,3 +51,18 @@ on e.event_type = b.event) c
 where c.occurences>c.average
 group by c.business_id
 having count(*) > 1
+
+
+My sol:
+select distinct business_id from (
+select
+	business_id,
+	event_type,
+	occurences,
+	average_occ = (avg(occurences) over(partition by event_type))
+from events) e
+where occurences > average_occ
+group by business_id
+having count(business_id) > 1
+
+
