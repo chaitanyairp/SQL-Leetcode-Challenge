@@ -70,3 +70,25 @@ from employees
 where manager_id = any (select employee_id
 from employees
 where manager_id = 1 and employee_id != 1))
+
+
+
+My sol:
+with managers as (
+-- initialization
+select emp_id, manager_id
+from emp_55 where manager_id = 1 and emp_id != 1
+union all
+-- recursion
+select e.emp_id, e.manager_id
+from emp_55 e inner join managers m on e.manager_id = m.emp_id
+)
+select emp_id from managers;
+
+
+
+
+
+
+
+
