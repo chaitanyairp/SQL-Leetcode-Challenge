@@ -86,3 +86,18 @@ from t1 right join t2
 on t1.total = t2.total
 where t1.total is null
 	
+	
+My sol:
+with cte as (
+select 
+	activity, 
+	count(id) as tot,
+	rank() over(order by count(id)) as rn1,
+	rank() over(order by count(id) desc) as rn2
+from friends
+group by activity
+)
+select activity from cte where rn1 != 1 and rn2 != 1;
+
+
+	
