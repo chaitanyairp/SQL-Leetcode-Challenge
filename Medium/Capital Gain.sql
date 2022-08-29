@@ -69,7 +69,7 @@ order by capital_gain_loss desc
 
 
 My sol:
-
+1.
 with costs as (
 select 
 	stock_name,
@@ -80,8 +80,27 @@ group by stock_name)
 select stock_name, sell_cost - buy_cost as capital_gain_loss
 from costs
 
+2. as we need diff, one case shld be enough.
+select
+	stock_name,
+	gain = sum(case when operation = 'Buy' then price*-1 else price end)
+  from [medium].[dbo].[stocks]
+  group by stock_name
 
-
+3. 
+with t1 as (
+  select stock_name, sum(price) as buy
+  from stocks
+  where operation = 'Buy'
+  group by stock_name
+  ), t2 as (
+  select stock_name, sum(price) as sell
+  from stocks
+  where operation = 'Sell'
+  group by stock_name
+  )
+  select t1.stock_name,t2.sell - t1.buy as gain
+  from t1 inner join t2 on t1.stock_name = t2.stock_name
 
 
 
