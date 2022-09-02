@@ -105,3 +105,16 @@ and o.customer_id in (select distinct customer_id from orders_72 where product_n
 and o.customer_id not in (select distinct customer_id from orders_72 where product_name = 'C')
 
 
+
+with cte as (
+select
+	o.customer_id, min(c.customer_name) as customer_name,
+	a_count = sum(case when product_name = 'A' then 1 else 0 end),
+	b_count = sum(case when product_name = 'B' then 1 else 0 end),
+	c_count = sum(case when product_name = 'C' then 1 else 0 end)
+from orders_72 o inner join customers_72 c on o.customer_id = c.customer_id
+group by o.customer_id)
+select customer_id, customer_name from cte where a_count >= 1 and b_count >= 1 and c_count = 0
+
+
+
