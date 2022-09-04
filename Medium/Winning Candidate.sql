@@ -47,3 +47,19 @@ on c.id = b.candidateid)
 select t1.name
 from t1
 where t1.rk=1
+
+
+My sol:
+with cte as (
+select
+	candidateId,
+	rank() over(order by count(id) desc) as rn
+from vote
+group by candidateId
+)
+select name
+from candidate c inner join cte on c.id = cte.candidateId
+where rn  = 1
+
+
+
