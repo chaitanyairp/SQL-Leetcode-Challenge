@@ -84,3 +84,28 @@ group by b.book_id
 having(sum(case when year(dispatch_date) = 2018 then quantity else 0 end)) < 10
 
 
+
+with t1 as (
+select book_id, sum(quantity) as qty
+from orders
+where year(dispatch_date) = 2018
+group by book_id
+), t2 as (
+select book_id, name
+from books
+where datediff(day, available_from, '2019-06-23') > 30
+)
+select t2.book_id, name
+from t2 left join t1 on t2.book_id = t1.book_id
+group by t2.book_id, name
+having sum(coalesce(qty, 0)) < 10
+order by 1
+
+
+
+
+
+
+
+
+
