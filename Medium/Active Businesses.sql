@@ -53,7 +53,7 @@ group by c.business_id
 having count(*) > 1
 
 
-My sol: This sol looks for occ greater than any. we need particular.
+My sol: 
 select distinct business_id from (
 select
 	business_id,
