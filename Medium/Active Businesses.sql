@@ -53,7 +53,7 @@ group by c.business_id
 having count(*) > 1
 
 
-My sol:
+My sol: This sol looks for occ greater than any. we need particular.
 select distinct business_id from (
 select
 	business_id,
@@ -65,4 +65,14 @@ where occurences > average_occ
 group by business_id
 having count(business_id) > 1
 
-
+Correct sol:
+with cte as (
+select event_type, avg(occurences) as avg_all
+from events
+group by event_type
+)
+select business_id
+from events e
+where occurences > (select avg_all from cte where cte.event_type = e.event_type)
+group by business_id
+having count(*) > 1
