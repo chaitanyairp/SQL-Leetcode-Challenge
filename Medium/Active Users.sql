@@ -85,3 +85,48 @@ inner join Logins c on b.id = c.id and datediff(day,b.login_date,c.login_date) =
 inner join Logins d on c.id = d.id and datediff(day,c.login_date,d.login_date) = 1
 inner join Logins e on d.id = e.id and datediff(day,d.login_date,e.login_date) = 1
 inner join Accounts ac on e.id = ac.id
+
+Prac: -- Too many joins or leads.. No need to do 5 joins. Just do a distinct and get 4 day
+with cte as (
+select distinct id, login_date from Logins
+), t2 as (
+select
+ id,
+ login_date as day1,
+ lead(login_date,1) over(partition by id order by login_date) as day2,
+ lead(login_date,2) over(partition by id order by login_date) as day3,
+ lead(login_date,3) over(partition by id order by login_date) as day4,
+ lead(login_date,4) over(partition by id order by login_date) as day5
+from cte
+)
+select distinct id
+from t2
+where datediff(day, day1,day2) = 1 
+and   datediff(day, day2,day3) = 1 
+and   datediff(day, day3,day4) = 1 
+and   datediff(day, day4,day5) = 1
+
+
+select distinct a.id
+from Logins a inner join Logins b on a.id = b.id and datediff(day,a.login_date, b.login_date) = 1
+inner join Logins c on b.id = c.id and datediff(day,b.login_date, c.login_date) = 1
+inner join Logins d on c.id = d.id and datediff(day,c.login_date, d.login_date) = 1
+inner join Logins e on d.id = e.id and datediff(day,d.login_date, e.login_date) = 1
+
+--
+Good::
+with cte as (
+select distinct id, login_date
+from Logins
+), t2 as (
+select
+	id,
+	login_date as day1,
+	lead(login_date,4) over(partition by id order by login_date) as day5
+from cte
+)
+select distinct id
+from t2
+where datediff(day,day1,day5) >= 4
+
+
