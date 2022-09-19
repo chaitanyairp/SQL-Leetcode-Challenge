@@ -65,7 +65,6 @@ where occurences > average_occ
 group by business_id
 having count(business_id) > 1
 
-Correct sol:
 with cte as (
 select event_type, avg(occurences) as avg_all
 from events
@@ -76,3 +75,48 @@ from events e
 where occurences > (select avg_all from cte where cte.event_type = e.event_type)
 group by business_id
 having count(*) > 1
+
+
+
+
+Prac:
+
+1.
+with cte as (
+select
+business_id,
+occurences,
+avg(occurences) over(partition by event_type) as tot_avg
+from Events
+)
+select business_id 
+from cte
+where occurences > tot_avg
+group by business_id
+having count(*) > 1
+
+2.
+with cte as (
+select event_type, avg(occurences) as tot_avg
+from Events
+group by event_type
+)
+select business_id
+from Events e inner join cte c on e.event_type = c.event_type
+where e.occurences > c.tot_avg
+group by e.business_id
+having count(*) > 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
