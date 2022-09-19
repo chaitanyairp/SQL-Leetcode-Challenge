@@ -73,4 +73,26 @@ group by sale_date
 )
 select sale_date, apples_sold - oranges_sold as diff from t1;
 
+2.
+select 
+a.sale_date, 
+diff = (a.sold_num - b.sold_num)
+from sales_66 a inner join sales_66 b on a.sale_date = b.sale_date and a.fruit = 'apples' and b.fruit = 'oranges'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
