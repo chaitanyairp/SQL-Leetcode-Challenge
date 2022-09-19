@@ -61,3 +61,15 @@ select viewer_id
 from views
 group by view_date, viewer_id
 having count(distinct article_id) > 1
+
+3.
+select
+viewer_id
+from (select distinct * from Views)
+group by view_date, viewer_id
+having count(article_id) > 1
+
+
+
+
+
