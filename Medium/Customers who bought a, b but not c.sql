@@ -117,4 +117,35 @@ group by o.customer_id)
 select customer_id, customer_name from cte where a_count >= 1 and b_count >= 1 and c_count = 0
 
 
+Prac sol:
+with cte as (
+select 
+customer_id,
+a_count = sum(case when product_name = 'A' then 1 else 0 end),
+b_count = sum(case when product_name = 'B' then 1 else 0 end),
+c_count = sum(case when product_name = 'C' then 1 else 0 end)
+from orders_72
+group by customer_id
+)
+select a.customer_id, b.customer_name
+from cte a inner join customers_72 b on a.customer_id = b.customer_id
+where a_count >= 1 and b_count >= 1 and c_count = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
