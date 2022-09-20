@@ -69,4 +69,8 @@ group by customer_id
 having count(distinct product) = (select count(product_key) from product_93)
 
 
-
+Prac sol:
+select customer_id
+from (select distinct customer_id, product_key from customer_93) a
+group by customer_id
+having count(*) = (select count(*) from product_93)
