@@ -104,4 +104,38 @@ with t1 as (
 
 
 
+Prac: Improve - as we are dealing with same col in sub, we couldve put sum(-1)
+1. 
+with cte as (
+select 
+stock_name,
+buy_price  = sum(case when operation='Buy' then price else 0 end),
+sell_price = sum(case when operation='Sell' then price else 0 end)
+from Stocks
+group by stock_name
+)
+select stock_name, capital_gain_loss = (sell_price-buy_price)
+from cte
+
+
+2.
+with t1 as (
+select  stock_name, sum(price) as buy
+from stocks a 
+where operation = 'Buy'
+group by stock_name
+), t2 as (
+select stock_name, sum(price) as sell
+from stocks
+where operation = 'Sell'
+group by stock_name
+)
+select t1.stock_name, (t2.sell - t1.buy) as Gain_loss
+from t1 inner join t2 on t1.stock_name = t2.stock_name
+
+
+
+
+
+
 
