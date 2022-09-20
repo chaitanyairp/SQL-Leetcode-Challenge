@@ -51,4 +51,42 @@ inner join logs c on c.id - b.id = 1 and c.num = b.num
 
 
 
+Prac sol:
+1.
+select distinct a.num
+from logs a inner join logs b on a.id = b.id - 1 and a.num = b.num
+            inner join logs c on b.id = c.id - 1 and b.num = c.num
+	    
+2. Lead
+with cte as (
+select
+id, 
+num, 
+lead(id,1) over(order by id) as id1,
+lead(num,1) over(order by id) as num1,
+lead(id,2) over(order by id) as id2,
+lead(num,2) over(order by id) as num2
+from logs
+)
+select distinct num
+from cte
+where id1 = id + 1 and id2 = id1 + 1 and num = num1 and num = num2
+
+
+3. Lead and Lag:
+with cte as (
+select
+num,
+prev = lag(num,1) over(order by id),
+next = lead(num,1) over(order by id)
+from logs
+)
+select distinct num
+from cte
+where prev = next and prev = num
+
+
+
+
+
 
