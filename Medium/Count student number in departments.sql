@@ -63,3 +63,10 @@ select dept_name, count(student_id) as student_number
 from dept d left join student s on d.dept_id = s.dept_id
 group by dept_name
 order by 2 desc, 1 asc
+
+
+Prac sol:
+select d.dept_name, coalesce(count(student_id),0) as student_number
+from dept d left join student s on d.dept_id = s.dept_id
+group by d.dept_name
+
