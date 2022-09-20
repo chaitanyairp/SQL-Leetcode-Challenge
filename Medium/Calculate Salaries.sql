@@ -98,5 +98,31 @@ from max_salary
 
 
 
+Prac sol:
+1.
+with cte as (
+select
+*, max(salary) over(partition by company_id) as max_sal
+from salaries
+)
+select
+company_id, employee_id, employee_name,
+salary = (case when max_sal < 1000 then salary 
+	       when max_sal >= 1000 and max_sal < 10000 then salary*0.76
+	       when max_sal >= 10000 then salary*0.51	 
+	  end)
+from cte
 
 
+2.
+with cte as (
+select company_id, 
+max_sal = (case when max(salary) < 1000 then 0 
+	        when max(salary) >= 1000 and max(salary) < 10000 then 0.24
+	     	when max(salary) >= 10000 then 0.49
+	   end)
+from salaries
+group by company_id
+)
+select s.company_id, s.employee_name, (s.salary*(1-c.max_sal)) as salary
+from salaries s inner join cte c on s.company_id = c.company_id
