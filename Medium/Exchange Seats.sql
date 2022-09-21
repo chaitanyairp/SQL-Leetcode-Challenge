@@ -57,3 +57,48 @@ select
 from cte
 order by id
 
+
+Prac:
+1.
+with cte as (
+select
+id,
+student,
+new_seat = (case when id % 2 = 0 then id - 1 else id + 1 end)
+from seats
+)
+select
+row_number() over(order by new_seat) as id,
+student
+from cte
+
+
+
+2.
+with cte as (
+select
+id,
+student,
+lead(id,1) over(order by id) as next_seat
+from seats
+)
+select
+nid = (case when next_seat is null then id 
+	  else IIF(id % 2 = 0, id - 1, id + 1) 
+       end),
+ student
+from cte
+order by nid
+
+
+
+
+
+
+
+
+
+
+
+
+
