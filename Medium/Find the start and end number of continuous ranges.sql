@@ -48,3 +48,22 @@ from(
 select log_id, log_id-row_number() over (order by log_id) as rk
 from logs) a
 group by rk
+
+
+Prac:
+with cte as (
+select
+log_id,
+log_id - row_number() over(order by log_id) as rn
+from logs_80
+)
+select min(log_id) as start, max(log_id) as 'end'
+from cte
+group by rn
+
+
+
+
+
+
+
