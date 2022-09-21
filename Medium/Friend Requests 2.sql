@@ -59,3 +59,38 @@ from cte
 group by requester_id)
 select id, num from t2 where rn = 1
 
+
+
+Prac:
+1.
+with cte as (
+select requester_id, accepter_id from request_accepted
+union all
+select accepter_id, requester_id from request_accepted
+), t2 as (
+select requester_id, count(*) as tot, rank() over(order by count(*) desc) as rn
+from cte
+group by requester_id
+)
+select * from t2 where rn = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
