@@ -57,5 +57,19 @@ where rn = 1
 
 
 
+Prac sol:
+with cte as (
+select
+departmentid,
+name,
+salary,
+rank() over(partition by departmentid order by salary desc) as rn
+from employees
+)
+select departmentid, name, coalesce(salary, 0) as max_sal 
+from department d left join cte c on d.id = c.departmentid
+where rn = 1
+
+
 
 
