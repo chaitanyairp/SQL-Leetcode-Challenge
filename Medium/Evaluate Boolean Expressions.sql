@@ -103,3 +103,59 @@ select
 				when operator = '>' then IIF (left_value > right_value, 'TRUE','FALSE')
 			end)
 from t1
+
+
+Prac sol:
+1.
+with cte as (
+select 
+left_operand,
+operator,
+right_operand,
+val1 = (select value from variables v where v.name = e.left_operand),
+val2 = (select value from variables v where v.name = e.right_operand)
+from expressions e
+)
+select
+left_operand,
+operator,
+right_operand,
+value = (case
+		when operator = '<' then IIF(left_operand < right_operand,'TRUE','FALSE')
+		when operator = '>' then IIF(left_operand > right_operand,'TRUE','FALSE')
+		else IIF(left_operand = right_operand, 'TRUE','FALSE')
+	   end)
+from cte
+
+
+2.
+with cte as (
+select e.left_operand,e.operator,e.right_operand,a.value as avalue,b.value as bvalue
+from expressions e inner join variables a on e.left_operand = a.name
+inner join variables b on e.right_operand = b.name
+)
+select * from cte
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
