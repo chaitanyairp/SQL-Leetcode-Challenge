@@ -65,3 +65,28 @@ from queue
 from t1
 where running_weight <= 1000
 order by running_weight desc
+
+
+Prac:
+with cte as (
+select
+person_name,
+sum(weight) over(order by turn) as tot
+from Queue
+)
+select top(1) * from cte where tot <= 1000
+order by tot desc
+
+
+
+2.
+with cte as (
+select
+person_name,
+turn,
+sum(weight) over(order by turn) as tot
+from Queue
+)
+select * from cte
+where turn = (select max(turn) from cte where tot <= 1000)
+
