@@ -71,3 +71,23 @@ select round(sum(case when order_date = customer_pref_delivery_date then 1 else 
 from cte
 where rn = 1;
 
+
+Prac:
+with cte as (
+select *, rank() over(partition by customer_id order by order_date) as rn
+from Delivery
+), t2 as (
+select
+imm_cnt = sum(case when order_date = customer_pref_delivery_date then 1 else 0 end)
+, count(*) as tot
+from cte
+where rn = 1
+)
+select (imm_cnt*1.0/tot)*100 from t2
+
+
+
+
+
+
+
