@@ -70,7 +70,22 @@ group by question_id
 )
 select question_id from t2 where rn = 1;
 
+Prac sol:
 
 
+with cte as (
+select
+question_id,
+show_count = sum(case when action = 'show' then 1 else 0 end),
+answer_count = sum(case when action = 'answer' then 1 else 0 end)
+from survery_log
+group by question_id
+), t2 as (
+select
+question_id, rank() over(order by (1.0*answer_count/show_count) desc) as rn
+from cte
+)
+select * from t2
+where rn = 1
 
 
