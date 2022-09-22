@@ -59,3 +59,44 @@ select student_id, course_id, grade from cte
 where rn = 1
 
 
+
+Prac sol:
+with cte as (
+select
+student_id,
+course_id,
+grade,
+rank() over(partition by student_id order by grade desc, course_id) as rn
+from Enrollements
+)
+select * from cte where rn = 1;
+
+
+2.
+with cte as (
+select
+student_id, max(grade) as max_grade
+from Enrollements
+group by student_id
+)
+select e.student_id, min(course_id) as course_id, max(e.grade) as grade 
+from Enrollements e inner join cte c on e.student_id = c.student_id and e.grade = c.max_grade
+group by e.student_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
