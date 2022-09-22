@@ -71,5 +71,17 @@ select
 from t1
 where (cnt = 1 and rn = 1) or (cnt > 1 and rn = 2);
 
+Prac sol:
 
-
+with cte as (
+select
+username,
+activity,
+startDate,
+endDate,
+rank() over(partition by username order by startDate) as rn,
+count(*) over(partition by username) as cnt
+from userActivity
+)
+select * from cte
+where rn = 2 or cnt = 1
