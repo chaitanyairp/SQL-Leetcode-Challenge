@@ -42,5 +42,9 @@ from emp a inner join emp b on a.managerId = b.id
 group by b.name
 having count(a.id) >= 5
 
-
+Prac:
+select b.name
+from emp a inner join emp b on a.managerId = b.id
+group by b.name
+having count(*) >= 5
 
