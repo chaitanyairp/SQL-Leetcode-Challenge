@@ -77,6 +77,14 @@ select cnt/(select count(distinct player_id)*1.0 from Activity_91) as fraction
 from t1
 
 
+Prac sol:
+with cte as (
+select count(*) as cnt
+from Activity_91 a inner join Activity_91 b on a.player_id = b.player_id
+and datediff(day,b.event_date,a.event_date) = 1
+)
+select round(cnt*1.0/(select count(distinct player_id) from Activity_91),2)
+from cte
 
 
 
