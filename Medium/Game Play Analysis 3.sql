@@ -58,3 +58,23 @@ select
 from Activity_62
 order by player_id
 
+
+Prac sol:
+select
+player_id,
+event_date,
+games_played_so_far = sum(games_played) over(partition by player_id order by event_date rows between unbounded preceding and current row)
+from Activity_62
+
+
+
+
+
+
+
+
+
+
+
+
+
