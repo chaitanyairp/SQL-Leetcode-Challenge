@@ -35,3 +35,44 @@ from t2 inner join teams_1841 t on t2.team_id = t.team_id
 group by t.team_name
 )
 select * from t3
+
+
+
+Prac sol:
+with cte as (
+select
+*, home_team_points = (case when home_team_goals > away_team_goals then 3
+						    when home_team_goals < away_team_goals then 0
+							else 1
+					   end),
+  away_team_points =  (case when home_team_goals < away_team_goals then 3
+						    when home_team_goals > away_team_goals then 0
+							else 1
+					   end)
+from matches_1841
+), t2 as (
+select home_team_id as team_id, home_team_goals as num_goals, home_team_points as points, away_team_goals as num_goals_opp  from cte
+union all
+select away_team_id as team_id, away_team_goals as num_goals, away_team_points as points, home_team_goals as num_goals_opp  from cte
+)
+select t.team_name, count(*) as matches_played, sum(points) as points, sum(num_goals) as goals_for, sum(num_goals_opp) as goals_against, (sum(num_goals)-sum(num_goals_opp)) as goals_diff
+from t2 inner join teams_1841 t on t2.team_id = t.team_id
+group by t.team_name
+order by points desc, goals_diff desc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
