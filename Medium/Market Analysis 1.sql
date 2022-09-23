@@ -107,6 +107,19 @@ select u.user_id as buyer_id, u.join_datae as join_date, coalesce(t.cnt, 0) as o
 from users_69 u left join t1 t on u.user_id = t.buyer_id 
 
 
+Prac sol":
+
+1.
+with cte as (
+select buyer_id, count(*) as cnt
+from orders_69
+where year(order_date) = 2019
+group by buyer_id
+)
+select user_id, join_datae, coalesce(cnt, 0) as orders_in_2019
+from users_69 u left join cte c on u.user_id = c.buyer_id
+
+
 
 
 
