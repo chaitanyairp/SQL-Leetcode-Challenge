@@ -76,6 +76,60 @@ and lon in (select lon from t3);
 
 
 
+Prac sol:
+1.
+select sum(tiv_2016)
+from insurance a
+where tiv_2015  in (select tiv_2015 from insurance b where a.oid != b.oid)
+and concat(lat, lon) not in (select concat(lat,lon) from insurance b where a.oid != b.oid)
+
+2.
+with t1 as (
+select tiv_2015 from insurance
+group by tiv_2015
+having count(tiv_2015) > 1
+), t2 as (
+select concat(lat,lon) as lat from insurance a
+group by concat(lat, lon)
+having count(*) = 1
+)
+select sum(tiv_2016) as tot
+from insurance
+where tiv_2015 in (select tiv_2015 from t1)
+and concat(lat,lon) in (select lat from t2)
+
+3. 
+with cte as (
+select
+*, count(tiv_2015) over(partition by tiv_2015) as cnt_2015,
+count(*) over(partition by concat(lat,lon)) as cnt_lat_lon
+from insurance
+)
+select sum(tiv_2016) as tot
+from cte
+where cnt_2015 > 1 and cnt_lat_lon = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
