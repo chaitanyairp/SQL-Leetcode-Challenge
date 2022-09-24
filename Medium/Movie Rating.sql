@@ -138,6 +138,23 @@ where rn = 1
 union all
 select top(1) title from t2 where rn = 1
 
-
+Prac sol:
+with t1 as (
+select
+u.name,
+rank() over(order by count(*) desc, u.name) as rn
+from Movie_rating r inner join users u on r.user_id = u.user_id
+group by u.name
+), t2 as (
+select
+m.title,
+rank() over(order by avg(rating*1.0) desc, title) as rn
+from movie_rating r inner join Movies m on m.movie_id = r.movie_id
+where month(r.created_at ) = 02
+group by m.title
+)
+select name from t1 where rn = 1
+union all
+select title from t2 where rn = 1
 
 
