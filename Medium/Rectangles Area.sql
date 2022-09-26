@@ -59,7 +59,11 @@ select p1, p2, abs(x1-x2) * abs(y1-y2) as area
 from cte
 order by area desc, p1, p2;
 
-
+Prac sol:
+select a.id as p1, b.id as p2, abs(a.x_value - b.x_value) * abs(a.y_value - b.y_value) as area
+from points a cross join points b
+where a.id < b.id and a.x_value != b.x_value and a.y_value != b.y_value
+order by 3 desc, 1, 2
 
 
 
