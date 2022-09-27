@@ -97,6 +97,14 @@ select
 	sum(tot) over(partition by gender order by day) as total
 from t2
 
+Prac sol:
+
+select
+gender,
+day,
+total = sum(score_points) over(partition by gender order by day)
+from scores_mf
+order by gender, day
 
 
 
