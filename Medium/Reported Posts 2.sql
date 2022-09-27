@@ -92,3 +92,25 @@ group by action_date
 select round(avg(daily_percent),2)
 from temp
 
+
+Prac sol:
+
+with cte as (
+select action_date, count(r.post_id) as removed_posts, count(*) as total_posts, (1.0*count(r.post_id)/count(*))*100 as percnt
+from actions a left join removals r on a.post_id = r.post_id
+where a.extra = 'spam'
+group by a.action_date
+)
+select avg(percnt) as daily_percnt
+from cte
+
+
+
+
+
+
+
+
+
+
+
