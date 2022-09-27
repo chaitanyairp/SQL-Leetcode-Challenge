@@ -88,5 +88,19 @@ order by visited_on
 offset 6 rows
 
 
+Prac sol:
 
+with cte as(
+select
+visited_on, sum(amount) as days_total
+from customer
+group by visited_on
+)
+select
+visited_on,
+sum(days_total) over(order by visited_on rows between 6 preceding and current row) as amount,
+avg(days_total*1.0) over(order by visited_on rows between 6 preceding and current row) as average_amount
+from cte
+order by visited_on
+offset 6 rows
 
