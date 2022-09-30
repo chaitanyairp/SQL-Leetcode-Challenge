@@ -23,3 +23,8 @@
 select a.Name as Employee
 from employee a, employee b
 where a.salary>b.salary and a.managerid=b.id
+
+My sol:
+select a.name
+from Employee a inner join Employee b on a.managerId = b.id
+where a.salary > b.salary
