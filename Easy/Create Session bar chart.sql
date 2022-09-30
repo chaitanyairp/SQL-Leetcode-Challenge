@@ -61,7 +61,18 @@
  
  
  My sol:
- with cte as (
+ 1.
+ select bin = '[0-5>', total = sum(case when duration < 300 then 1 else 0 end) from sessions
+union all
+select bin = '[5-10>', total = sum(case when duration >= 300 and duration < 600 then 1 else 0 end) from sessions
+union all
+select bin = '[10-15>', total = sum(case when duration >= 600 and duration < 900 then 1 else 0 end) from sessions
+union all
+select bin = '15 or more', total = sum(case when duration > 900 then 1 else 0 end) from sessions
+
+ 
+2.
+with cte as (
 select
 bin = (case 
 	  when duration < 300 then '[0-5>'
