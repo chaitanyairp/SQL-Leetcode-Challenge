@@ -37,3 +37,10 @@ Select E.name, B.bonus
 From Employee E left join Bonus B
 on E.empId = B.empId
 where B.bonus< 1000 or B.Bonus IS NULL
+
+My sol:
+select e.name, b.bonus
+from Employee e left join Bonus b on e.empId = b.empId
+where b.empId is null or b.empId < 1000
+
+
