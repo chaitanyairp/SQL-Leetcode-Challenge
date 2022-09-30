@@ -27,3 +27,22 @@ With t1 as
 )
 Delete from person
 where id in (Select t1.id from t1 where t1.rk>1)
+
+
+My sol:
+with cte as (
+select
+id,
+rn = row_number() over(partition by email order by id)
+from email
+)
+delete from email where id in (
+select id from cte where rn != 1
+)
+
+
+
+
+
+
+
