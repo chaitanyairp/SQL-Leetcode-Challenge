@@ -36,3 +36,12 @@ from Customers
 where id != All(select c.id
                 from Customers c, Orders o
                 where c.id = o.Customerid) 
+                
+                
+                
+My sol:
+select c.Name
+from Customers c left join Orders o on c.id = o.id
+where o.id is null
+                
+                
