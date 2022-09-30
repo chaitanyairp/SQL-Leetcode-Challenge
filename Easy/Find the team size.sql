@@ -50,3 +50,20 @@ Select team_id, count(team_id) as team_size
 from employee
 group by team_id) b
 on e.team_id = b.team_id
+
+
+
+My sol:
+with cte as (
+select team_id, count(distinct employee_id) as cnt
+from Employee
+group by team_id
+)
+select e.employee_id, cnt as team_size
+from Employee e inner join cte c on e.team_id = c.team_id
+
+
+
+
+
+
