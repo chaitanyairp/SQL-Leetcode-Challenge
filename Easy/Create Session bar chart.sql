@@ -55,3 +55,32 @@
  union
 (Select '15 or more' as bin, 
  sum(case when duration/60 >= 15 then 1 else 0 end) as total from Sessions)
+ 
+ 
+ 
+ 
+ 
+ My sol:
+ with cte as (
+select
+bin = (case 
+	  when duration < 300 then '[0-5>'
+   when duration < 600 then '[5-10>'
+	  when duration < 900 then '[10-15>'
+	  else '15 or more'  
+	end)
+from Sessions
+), t2 as (
+select '[0-5>' as bin
+union all
+select '[5-10>' 
+union all
+select '[10-15>'
+union all
+select '15 or more'
+)
+select t2.bin, count(cte.bin) as total
+from t2 left join cte on t2.bin = cte.bin
+group by t2.bin
+ 
+ 
