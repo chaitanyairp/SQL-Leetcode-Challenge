@@ -30,3 +30,21 @@ from
     group by num
     having count(*)=1
 ) a
+
+
+
+My sol:
+with cte as (
+select num
+from my_numbers
+group by num
+having count(num) = 1
+)
+select max(num) as num from cte;
+
+
+
+
+
+
+
