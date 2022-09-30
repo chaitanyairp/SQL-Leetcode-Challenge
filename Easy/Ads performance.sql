@@ -77,3 +77,21 @@ select *
 from t1 join t2
 on t1.ad_id = t2.ad) a
 order by ctr desc, ad_id
+
+My sol:
+
+with cte as (
+select 
+ad_id,
+clicked = sum(case when action = 'Clicked' then 1 else 0 end),
+viewed = sum(case when action = 'Viewed' then 1 else 0 end)
+from ads
+group by ad_id
+)
+select
+ad_id,
+ctr = (case when (clicked + viewed) = 0 then 0 else round(100.0*clicked/(clicked + viewed),2) end)
+from cte
+
+
+
