@@ -24,3 +24,22 @@ from
 from person
 group by Email
 having count(Email)>1) a
+
+
+My sol:
+
+with cte as (
+select
+id, email, rn = row_number() over(partition by email order by id)
+from Person
+)
+select distinct email
+from cte
+where rn > 1
+
+
+
+
+
+
+
