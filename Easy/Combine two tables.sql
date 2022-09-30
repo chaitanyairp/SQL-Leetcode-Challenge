@@ -32,3 +32,12 @@
 select FirstName, LastName, City, State
 from Person P left join Address A
 on P.PersonId = A.PersonId
+
+My sol:
+select
+firstName,
+LastName,
+city,
+state
+from Person p left join Address a on p.personId = a.personId
+
