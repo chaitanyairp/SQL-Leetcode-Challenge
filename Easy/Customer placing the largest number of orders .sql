@@ -57,3 +57,19 @@ With t1 as
 Select t1.customer_number
 from t1
 where t1.rk=1
+
+My sol:
+with cte as (
+select 
+customer_number,
+rank() over(order by count(order_number) desc) as rn
+from orders
+group by customer_number
+)
+select customer_number from cte where rn = 1
+
+
+
+
+
+
