@@ -31,3 +31,27 @@ lag(free,1) over() as prev
 from cinema) a
 where a.free=True and (next = True or prev=True)
 order by seat_id
+
+
+My sol:
+with cte as (
+select
+seat_id as s1,
+free as f1,
+lead(free,1) over(order by seat_id) as f2,
+lag(free,1) over(order by seat_id) as f0
+from cinema
+)
+select s1 as seta_id
+from cte
+where (f1 = 1 and f2 = 1) or (f1 = 1 and f0 = 1) 
+
+
+
+
+
+
+
+
+
+
