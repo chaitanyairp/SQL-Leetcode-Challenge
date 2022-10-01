@@ -51,3 +51,12 @@ where kids_content = 'Y' and content_type = 'Movies') a
 join
 tvprogram using (content_id)
 where month(program_date) = 6
+
+
+My sol:
+select distinct title
+from TVProgram t inner join Content c on t.content_id = c.content_id
+where month(program_date) = 6 
+and year(program_date) = 2020
+and kids_content = 'Y'
+
