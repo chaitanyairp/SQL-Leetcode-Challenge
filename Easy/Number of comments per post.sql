@@ -67,3 +67,25 @@ group by parent_id
 having parent_id = any(select sub_id from submissions where parent_id is null)) b
 on a.sub_id = b.parent_id
 order by post_id
+
+
+My sol:
+
+with cte as(
+select parent_id, count(distinct sub_id) as cnt
+from Submissions
+where parent_id is not null
+group by parent_id
+)
+select distinct s.sub_id as post_id, coalesce(cnt,0 ) as number_of_comments
+from Submissions s left join cte on  s.sub_id = cte.parent_id
+where s.parent_id is null
+
+
+
+
+
+
+
+
+
