@@ -72,3 +72,14 @@ left join
 employeeuni u
 on e.id = u.id
 order by e.id
+
+
+
+My sol:
+select unique_id, name
+from Employees e left join EmployeeUNI u on e.id = u.id
+order by unique_id
+
+
+
+
