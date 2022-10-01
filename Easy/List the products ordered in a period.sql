@@ -85,3 +85,19 @@ on o.product_id = p.product_id
 where month(order_date)=2 and year(order_date) = 2020
 group by o.product_id) a
 where a.unit>=100
+
+
+My sol:
+with orders_cte as (
+select product_id, sum(unit) as tot
+from Orders
+where month(order_date) = 2 and year(order_date) = 2020
+group by product_id
+)
+select p.product_name, tot as unit
+from orders_cte o inner join Products p on o.product_id = p.product_id
+where tot >= 100
+
+
+
+
