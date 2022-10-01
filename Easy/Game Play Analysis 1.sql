@@ -42,3 +42,17 @@
 Select player_id, min(event_date) as first_login
 from Activity
 Group by player_id
+
+My Sol:
+
+with cte as (
+select
+player_id,
+event_date as first_login_date,
+rank() over(partition by player_id order by event_date) as rn
+from activity_9
+)
+select player_id, first_login_date from cte where rn = 1
+
+
+
