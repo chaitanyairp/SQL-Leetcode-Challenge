@@ -31,3 +31,16 @@ Select *
 from cinema
 where id%2=1 and description not in ('boring')
 order by rating desc
+
+
+
+My sol:
+select *
+from cinema
+where description != 'boring' and id % 2 = 1
+
+
+
+
+
+
