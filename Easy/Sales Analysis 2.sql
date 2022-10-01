@@ -65,3 +65,26 @@ where a.buyer_id in
 (Select a.buyer_id from sales a join product b on a.product_id = b.product_id where b.product_name = 'S8') 
 and
 a.buyer_id not in (Select a.buyer_id from sales a join product b on a.product_id = b.product_id where b.product_name = 'iPhone')
+
+
+
+My sol:
+
+with cte as (
+select 
+buyer_id,
+iphone = sum(case when product_name = 'iPhone' then 1 else 0 end),
+s8 = sum(case when product_name = 'S8' then 1 else 0 end)
+from Sales s inner join Product p on s.product_id = p.product_id
+group by buyer_id
+)
+select buyer_id from cte
+where iphone = 0  and s8 >= 1
+
+
+
+
+
+
+
+
