@@ -72,3 +72,23 @@ FROM orders
 WHERE com_id = (SELECT com_id
 FROM company
 WHERE name = 'RED')) ;
+
+My sol:
+
+with cte as (
+select 
+sales_id,
+red_cnt = sum(case when name = 'RED' then 1 else 0 end)
+from orders_12 o inner join company c on o.com_id = c.com_id
+group by sales_id
+)
+select name
+from salesperson s left join cte c on c.sales_id = s.sales_id
+where red_cnt =  0 or red_cnt is null
+
+
+
+
+
+
+
