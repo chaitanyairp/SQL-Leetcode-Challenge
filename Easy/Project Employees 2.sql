@@ -62,3 +62,17 @@ rank() over(order by count(employee_id) desc) as rk
 from project
 group by project_id) a
 where a.rk = 1
+
+
+
+My sol:
+with cte as (
+select
+project_id,
+rank() over(order by count(*) desc) as rn
+from Project
+group by project_id
+)
+select project_id
+from cte
+where rn = 1
