@@ -22,3 +22,52 @@
 select a.Id
 from weather a, weather b
 where a.Temperature>b.Temperature and  datediff(a.recorddate,b.recorddate)=1
+
+
+
+My sol:
+
+1.
+with cte as (
+select
+id as id1,
+recordDate as rd1,
+temperature as t1,
+rd0 = lag(recordDate) over(order by id),
+t0 = lag(temperature) over(order by id)
+from Weather_12
+)
+select id1
+from cte
+where datediff(day, rd0, rd1) = 1 and t1 > t0
+
+2.
+select a.id
+from Weather_12 a inner join Weather_12 b on a.temperature > b.temperature
+and datediff(day, b.recorddate, a.recorddate) = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
