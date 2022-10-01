@@ -58,3 +58,26 @@ ifnull((
         select distinct
         round((select count(*) from t2) / ( select count(*) from t1),2) from t1,t2
     ),0) 'accept_rate'
+
+
+My Sol:
+
+with req_sent as (
+select distinct sender_id, send_to_id
+from friend_request
+), req_acc as (
+select distinct requester_id, accepter_id
+from request_accepted
+)
+select 
+accept_rate = (case
+	        when count(sender_id) = 0 then 0
+		else round((select 1.0*count(*) from req_acc)/count(*),2) 
+	       end)
+from req_sent
+
+
+
+
+
+
