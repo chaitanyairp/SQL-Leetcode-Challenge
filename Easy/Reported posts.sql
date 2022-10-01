@@ -52,3 +52,27 @@ Select extra as report_reason, count(distinct post_id) as report_count
 from actions
 where action_date = DATE_SUB("2019-07-5", INTERVAL 1 DAY) and action='report'
 group by extra
+
+
+My sol:
+1.
+select extra as report_reason, count(distinct post_id) as report_count
+from (select distinct post_id, action_date, action, extra from Actions) a
+where extra is not null and datediff(day, action_date, '2019-07-05') = 1
+group by extra
+
+2.
+select extra as report_reason, count(action) as report_count
+from (select distinct post_id, action_date, action, extra from Actions) a
+where extra is not null and datediff(day, action_date, '2019-07-05') = 1
+group by extra
+
+
+
+
+
+
+
+
+
+
