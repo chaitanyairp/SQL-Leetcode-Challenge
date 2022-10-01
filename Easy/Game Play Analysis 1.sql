@@ -45,6 +45,11 @@ Group by player_id
 
 My Sol:
 
+select player_id, min(event_date) as first_login_date
+from activity_9
+group by player_id
+
+
 with cte as (
 select
 player_id,
