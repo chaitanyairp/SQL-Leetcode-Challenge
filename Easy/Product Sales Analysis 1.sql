@@ -61,3 +61,12 @@ from product as a
 join
 sales as b
 on a.product_id = b.product_id
+
+
+My Sol:
+select product_name, year, price
+from Product p inner join Sales s on p.product_id = s.product_id
+
+
+
+
