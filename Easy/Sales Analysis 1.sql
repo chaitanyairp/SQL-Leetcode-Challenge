@@ -65,3 +65,21 @@ rank() over(order by sum(price) desc) as rk
 from sales
 group by seller_id) a
 where a.rk=1
+
+
+My sol:
+with cte as (
+select seller_id, rank() over(order by sum(price) desc) as rn
+from sales
+group by seller_id
+)
+select seller_id
+from cte
+where rn = 1
+
+
+
+
+
+
+
