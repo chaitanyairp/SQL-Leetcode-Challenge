@@ -61,3 +61,9 @@ join
 product b
 on a.product_id = b.product_id
 group by a.product_id
+
+My sol:
+select p.product_id, sum(quantity) as total_quantity
+from Product p inner join Sales s on p.product_id = s.product_id
+group by p.product_id
+
