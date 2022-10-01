@@ -62,3 +62,14 @@ join
 employee as b
 on a.employee_id=b.employee_id
 group by a.project_id
+
+My sol:
+select project_id, round(avg(1.0*experience_years),2) as average_years
+from Project p inner join Employee e on p.employee_id = e.employee_id
+group by project_id
+
+
+
+
+
+
