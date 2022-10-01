@@ -55,3 +55,20 @@ sum(if(month='Nov',revenue,null)) as Nov_Revenue,
 sum(if(month='Dec',revenue,null)) as Dec_Revenue
 from Department
 group by id
+
+
+My sol:
+select
+id,
+Jan_Revenue = sum(case when month = 'Jan' then revenue else 0 end),
+Feb_Revenue = sum(case when month = 'Feb' then revenue else 0 end)
+.
+.
+.
+from Department
+group by id
+
+
+
+
+
