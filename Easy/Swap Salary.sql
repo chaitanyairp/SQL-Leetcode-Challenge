@@ -27,3 +27,14 @@ Update salary
 set sex = Case when sex = 'm' then 'f' 
 when sex = 'f' then 'm'
 end;
+
+
+My sol:
+update Salary
+set sex = (case when sex = 'm' then 'f' else 'm' end)
+
+
+
+
+
+
