@@ -28,3 +28,16 @@ from(
 select *,
 lead(x) over(order by x) as next_closest
 from point) a 
+
+
+My sol:
+
+  select min(abs(a.x - b.x)) as shortest
+  from point a cross join point b
+  where b.x > a.x
+
+
+
+
+
+
