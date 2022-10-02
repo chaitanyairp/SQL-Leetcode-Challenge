@@ -23,3 +23,25 @@ select max(salary) as SecondHighestSalary
 from employee
 where salary ! = (Select max(salary)
                    from employee)
+                   
+                   
+                   
+My sol:
+
+1.
+with cte as (
+select
+salary,
+dense_rank() over(order by salary) desc as rn
+from Employee
+)
+select salary from cte where rn = 2
+
+                   
+2.
+Select max(salary) from Empployee where salary < (select max(salary) from Employee)
+                   
+                   
+                   
+                   
+                   
