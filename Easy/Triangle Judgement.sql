@@ -28,3 +28,12 @@ when x=y and y=z then 'Yes'
 else 'No'
 end as Triangle
 from triangle
+
+
+My sol:
+select
+x,y,z,
+triangle = (case when x+y > z and y+z > x and z+x > y then 'Yes' else 'No' end)
+from Triangle
+
+
