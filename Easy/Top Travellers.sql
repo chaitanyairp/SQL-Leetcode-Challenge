@@ -83,3 +83,14 @@ from Users U left join Rides R
 on R.user_id = U.id
 group by name
 Order by travelled_distance desc, name
+
+My sol:
+
+with cte as (
+select user_id, sum(distance) as tot_dis
+from Rides
+group by user_id
+)
+select name, coalesce(tot_dis, 0) as travelled_distance
+from Users u left join cte c on u.id = c.user_id
+order by 2 desc
