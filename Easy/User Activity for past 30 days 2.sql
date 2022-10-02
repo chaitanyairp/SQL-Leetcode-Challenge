@@ -55,3 +55,21 @@ select count(distinct session_id) as num
 from activity
 where activity_date between '2019-06-28' and '2019-07-27'
 group by user_id) a
+
+
+My sol:
+
+select round(1.0*count(distinct session_id)/count(distinct user_id),2) as average_sessions_per_user
+from Activity
+where activity_date between '2019-06-28' and '2019-07-27'
+
+
+
+
+
+
+
+
+
+
+
