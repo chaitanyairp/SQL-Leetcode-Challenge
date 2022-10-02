@@ -111,3 +111,18 @@ on e.student_id = s.student_id
 group by e.student_id, student_name, subject_name) b
 on a.student_id = b.student_id and a.subject_name =b.subject_name
 order by a.student_id asc, a.subject_name asc
+
+
+
+MY sol:
+
+with cte as (
+select s.*, u.*
+from Students s cross join Subjects u
+)
+select c.student_id, c.student_name, c.subject_name, coalesce(count(e.student_id), 0) as attended_exams
+from cte c left join examinations e on c.student_id = e.student_id and c.subject_name = e.subject_name
+group by c.student_id, c.student_name, c.subject_name
+
+
+
