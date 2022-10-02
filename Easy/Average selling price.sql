@@ -84,4 +84,9 @@ on (s.product_id = u.product_id and u.purchase_date
 group by pid
     
 
+My sol:
+select p.product_id, round(sum(price*units*1.0)/sum(units),2) as average_price 
+from UnitsSold u inner join Prices p on u.product_id = p.product_id and u.purchase_date between p.start_date and p.end_date
+group by p.product_id
+
 
