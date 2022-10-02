@@ -94,3 +94,32 @@ countries c
 on w.country_id = c.country_id
 where month(day) = 11
 group by c.country_name
+
+
+MY sol:
+
+with cte as (
+select
+country_id,
+avg(weather_state*1.0) as avg_state
+from Weather
+where month(day) = 11 and year(day) = 2019
+group by country_id
+)
+select
+country_name,
+weather_type = (case when avg_state <= 15 then 'Cold'
+		                   when avg_state >= 25 then 'Hot'
+                     else 'Warm'   
+                end)
+from cte inner join Country c on cte.country_id = c.country_id
+
+
+
+
+
+
+
+
+
+
