@@ -63,3 +63,37 @@ else "lower"
 end as comparison
 from t1
 order by 1 desc
+
+
+
+My sol:
+
+with cte as (
+select *, concat(year(pay_date), '-', format(month(pay_date), '00')) as pay_month from salary
+), t2 as (
+select
+pay_month,
+department_id,
+company_avg_of_month = avg(amount) over(partition by pay_month),
+dept_avg_of_month = avg(amount) over(partition by pay_month, department_id)
+from cte c inner join employee e on c.employee_id = e.employee_id
+)
+select 
+distinct pay_month,
+department_id,
+comparision = (case 
+			             when company_avg_of_month < dept_avg_of_month then 'higher'
+				            when company_avg_of_month = dept_avg_of_month then 'same'
+				            else 'lower'
+			           end)
+from t2
+order by 1 desc, 2
+
+
+
+
+
+
+
+
+
