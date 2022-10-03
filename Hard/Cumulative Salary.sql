@@ -62,3 +62,19 @@ from t1
 where month<recent_month
 order by 1, 2 desc
 
+My sol:
+--  3 months period. so rn and excluding last month with rn > 1
+with cte as (
+select
+id, month, salary, row_number() over(partition by id order by month desc) as rn
+from Employee_102
+), t2 as (
+select id, month, sum(salary) over(partition by id order by month) as salary, rn
+from cte
+)
+select id, month, salary
+from t2
+where rn > 1 and rn < 5
+order by id, month desc
+
+
