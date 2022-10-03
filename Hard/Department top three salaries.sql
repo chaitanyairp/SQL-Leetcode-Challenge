@@ -47,3 +47,20 @@ select d.name as department, e.name as employee, salary,
 from Employee e join Department d
 on e.departmentid = d.id) a
 where a.rk<4
+
+
+
+My sol:
+-- Could have calculated rn and then join with dept.
+with cte as (
+select
+d.name as Department,
+e.name as Employee,
+Salary,
+dense_rank() over(partition by departmentId order by salary desc) as rn
+from Employee_14 e inner join department_14 d on e.departmentid = d.id
+)
+select department, employee, salary from cte
+where rn <= 3
+
+
