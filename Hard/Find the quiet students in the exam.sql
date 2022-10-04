@@ -91,3 +91,39 @@ from exam join student
 using (student_id)
 where student_id != all(select student_id from t1)
 order by 1
+
+
+My sol:
+
+1.
+
+with cte as (
+select
+exam_id,
+student_id,
+score,
+min_score = min(score) over(partition by exam_id),
+max_score = max(score) over(partition by exam_id),
+tot_exams = count(*) over(partition by student_id)
+from Exam
+), t2 as (
+select
+student_id,
+quiet_ones = sum(case when score > min_score and score < max_score then 1 else 0 end),
+max(tot_exams) as tot_exams
+from cte
+group by student_id
+)
+select s.student_id, s.student_name
+from t2 inner join Student s on t2.student_id = s.student_id
+where quiet_ones = tot_exams
+
+
+
+
+
+
+
+
+
+
