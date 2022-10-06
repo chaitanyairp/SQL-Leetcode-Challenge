@@ -60,3 +60,47 @@ GROUP BY spend_date, user_id) u
 ON p.platform = u.platform AND p.spend_date=u.spend_date
 
 GROUP BY p.spend_date, p.platform
+
+
+
+
+My sol:
+1.
+with t1 as (
+select
+user_id,
+spend_date,
+mobile_amnt = sum(case when platform = 'mobile' then amount else 0 end),
+desktop_amnt = sum(case when platform = 'desktop' then amount else 0 end),
+mobile_cnt = sum(case when platform = 'mobile' then 1 else 0 end),
+desktop_cnt = sum(case when platform = 'desktop' then 1 else 0 end)
+from Spending
+group by spend_date, user_id
+), t2 as (
+select spend_date, 'mobile' as platform, sum(mobile_amnt) as total_amount, count(distinct user_id) as total_users 
+from t1 where mobile_cnt = 1 and desktop_cnt = 0
+group by spend_date
+union all
+select spend_date, 'desktop' as platform, sum(desktop_amnt) as total_amount, count(distinct user_id) as total_users 
+from t1 where mobile_cnt = 0 and desktop_cnt = 1
+group by spend_date
+), t3 as (
+select distinct spend_date from Spending
+), t4 as (
+select *
+from t1 where desktop_cnt > 0 and mobile_cnt > 0
+), t5 as (
+select t3.spend_date,'both' as platform, 
+sum(coalesce(mobile_amnt, 0)) + sum(coalesce(desktop_amnt, 0)) as total_amount,
+count(distinct user_id) as total_users
+from t3 left join t4 on t3.spend_date = t4.spend_date
+group by t3.spend_date
+union all
+select * from t2
+)
+select * from t5 order by spend_date, platform
+
+
+
+
+
