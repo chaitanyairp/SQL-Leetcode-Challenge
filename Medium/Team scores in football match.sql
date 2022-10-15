@@ -155,6 +155,29 @@ group by t.team_id
 order by num_points desc
 
 
+Prac:
+
+with points as (
+select *,
+host_team_points = (case when host_goals > guest_goals then 3
+						 when host_goals = guest_goals then 1
+						 else 0
+					end),
+guest_team_points = (case 
+						when guest_goals > host_goals then 3
+						when guest_goals = host_goals then 1
+						else 0
+					 end)
+from matches
+), t2 as (
+select host_team as team, host_team_points as pnt from points
+union all
+select guest_team as team, guest_team_points as pnt from points
+)
+select t.team_id, t.team_name, coalesce(sum(pnt), 0) as total_points
+from Teams t left join t2 on t.team_id = t2.team
+group by t.team_id, t.team_name
+order by 3 desc
 
 
 
