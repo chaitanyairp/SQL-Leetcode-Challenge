@@ -31,3 +31,9 @@ cross join point_2d p2
 where p1.x!=p2.x or p1.y!=p2.y
 order by sqrt(pow((p1.x-p2.x),2)+pow((p1.y-p2.y),2))
 limit 1) a
+
+
+Prac:
+select min(round(sqrt(POWER(b.x - a.x, 2) + POWER(b.y - a.y, 2)),2)) as shortest
+from point_2d a cross join point_2d b
+where a.x != b.x or a.y != b.y
