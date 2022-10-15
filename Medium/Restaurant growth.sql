@@ -104,3 +104,17 @@ from cte
 order by visited_on
 offset 6 rows
 
+Prac:
+
+with cte as (
+select visited_on, sum(amount) as amount
+from customer
+group by visited_on
+)
+select
+visited_on,
+amount = (sum(amount) over(order by visited_on rows between 6 preceding and current row)),
+average_amount = avg(amount*1.0) over(order by visited_on rows between 7 preceding and current row)
+from cte
+order by 1
+offset 6 rows
