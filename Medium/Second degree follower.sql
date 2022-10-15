@@ -34,3 +34,14 @@ from follow
 where followee = any(select follower from follow)
 group by followee
 order by followee
+
+My sol:
+select a.follower, count(b.follower) as cnt
+from 
+(select distinct follower from follower) a
+left join follower b on a.follower = b.followee
+group by a.follower
+
+
+
+
