@@ -73,3 +73,18 @@ select
 		   ) 
 from tree
 order by id;
+
+
+select
+id,
+Type = (case 
+	  	when p_id is null then 'Root'
+		when id in (select distinct p_id from tree) then 'Inner'
+		else 'Leaf'	
+        end)
+from tree
+
+
+
+
+
