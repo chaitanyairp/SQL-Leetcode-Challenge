@@ -104,7 +104,15 @@ group by a.action_date
 select avg(percnt) as daily_percnt
 from cte
 
-
+Prac:
+with cte as (
+select a.action_date, count(a.post_id) as rep_cnt, count(r.post_id) as rem_cnt
+from actions a left join removals r on a.post_id = r.post_id
+where extra = 'spam'
+group by a.action_date
+)
+select avg(100.00*rem_cnt/rep_cnt)
+from cte
 
 
 
