@@ -102,7 +102,15 @@ having sum(coalesce(qty, 0)) < 10
 order by 1
 
 
-
+with t1 as (
+select book_id, name, available_from
+from Books
+where available_from < dateadd(month, -1, '2019-06-23')
+)
+select t1.book_id, t1.name
+from t1 left join Orders o on t1.book_id = o.book_id
+group by t1.book_id, t1.name
+having sum(case when year(dispatch_date) = 2018 then 1 else 0 end) < 10
 
 
 
