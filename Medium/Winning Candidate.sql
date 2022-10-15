@@ -62,4 +62,15 @@ from candidate c inner join cte on c.id = cte.candidateId
 where rn  = 1
 
 
-
+Prac:
+with cte as (
+select 
+candidateId, 
+count(id) as vote_cnt,
+rank() over(order by count(id) desc) as rn
+from Vote
+group by candidateId
+)
+select b.name
+from cte c inner join Candidate b on c.candidateId = b.id
+where rn = 1
