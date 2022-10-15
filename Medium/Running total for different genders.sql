@@ -107,6 +107,10 @@ from scores_mf
 order by gender, day
 
 
-
+select
+gender,
+day,
+total = sum(score_points) over(partition by gender order by day)
+from scores_mf
 
 
