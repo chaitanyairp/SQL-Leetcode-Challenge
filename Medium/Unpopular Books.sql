@@ -114,6 +114,22 @@ having sum(case when year(dispatch_date) = 2018 then 1 else 0 end) < 10
 
 
 
-
+Prac:
+with books as (
+select book_id, name
+from Books
+where datediff(day, available_from, '2019-06-23') > 30
+), orders as (
+select book_id, sum(quantity) as tot
+from orders
+where year(dispatch_date) = 2018
+group by book_id
+), agg as (
+select book_id, name, coalesce(tot, 0)
+from books b left join orders o on b.book_id = o.book_id
+)
+select book_id, name
+from agg
+where tot <= 10 
 
 
