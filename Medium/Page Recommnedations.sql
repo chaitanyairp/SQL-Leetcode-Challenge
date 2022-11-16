@@ -101,4 +101,21 @@ select distinct page_id from pages_liked
 where page_id not in (select page_id from likes where user_id = 1);
 
 
+Prac sol: - I have to execute this
+
+with user1_friends as (
+select user1_id as user, user2_id friend from friendship where user1_id = 1
+union
+select user2_id, user1_id from friendship where user2_id = 1
+), pages_liked as (
+select f.friend, l.page_id
+from user1_friends f inner join likes l on f.friend = l.user_id
+)
+select distinct a.page_id
+from pages_liked a left join (select * from likes where user_id = 1) b on a.page_id = b.page_id
+where b.user_id is null
+
+
+
+
 
