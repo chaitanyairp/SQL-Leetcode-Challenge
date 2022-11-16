@@ -72,3 +72,15 @@ select product_id, new_price as price from products_curr where rn = 1
 union
 select product_id, 10 as price from products
 where product_id not in (select product_id from products_curr);
+
+
+Prac: Execute this later
+with product_dis as (
+select distinct product_id from products
+), product_rn as (
+select product_id, new_price, rank() over(partition by product_id order by change_date) as rn
+from products
+)
+select a.product_id, coalesce(b.new_price, 10) as price
+from product_dis a left join product_rn b on a.product_id = b.product_id
+where b.rn = 1
